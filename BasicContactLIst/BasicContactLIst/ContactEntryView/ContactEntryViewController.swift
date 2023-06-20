@@ -50,6 +50,7 @@ class ContactEntryViewController: UIViewController {
             let fetchedArray =  try PersistanceManager.shared.context.fetch(fetchreq)
             if let unwrappedContact = fetchedArray.first {
                 fetchedContact = unwrappedContact
+                setContactDetails(fetchedContact: fetchedContact)
             }
             
         }catch(let err) {
@@ -69,6 +70,28 @@ class ContactEntryViewController: UIViewController {
 //        contact.secondaryNumber = secondaryNumber
 //        contact.email = email
         
+    }
+    
+    func setContactDetails(fetchedContact: Contact?) {
+        guard let contact = fetchedContact else {return}
+        nameInputField.text = contact.name ?? ""
+        primaryPhInputField.text = String(contact.primaryNumber)
+        secondaryPhInputField.text = String(contact.secondaryNumber)
+        emailInputField.text = contact.email ?? ""
+        uuid = contact.id
+        
+    }
+    
+    
+    func addNewContact() {
+        
+        let contact = Contact(context: PersistanceManager.shared.context)
+        contact.name = name
+        contact.id = uuid!
+        contact.primaryNumber = primaryNumber ?? 0
+        contact.secondaryNumber = secondaryNumber ?? 0
+        contact.email = email
+        PersistanceManager.shared.saveContext()
     }
     
     

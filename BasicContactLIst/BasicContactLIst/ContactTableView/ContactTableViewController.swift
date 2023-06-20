@@ -7,6 +7,12 @@
 
 import UIKit
 
+enum ContactEntryType {
+    case newContact, editContact
+}
+var userSelectedContactID: UUID? = nil
+
+
 class ContactTableViewController: UIViewController {
 
     @IBOutlet var contentView: UIView!
@@ -46,13 +52,14 @@ class ContactTableViewController: UIViewController {
     }
     
     @IBAction func addBtnTapped(_ sender: Any) {
+        moveToContactEntryScreen(screenType: .newContact)
+    }
+    
+    func moveToContactEntryScreen(screenType: ContactEntryType) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
-        // Instantiate the view controller using its storyboard identifier
-        if let viewController = storyboard.instantiateViewController(withIdentifier: "ContactEntryViewController") as? ContactEntryViewController {
-            // Use the instantiated view controller
-            // For example, you can push it onto the navigation stack or present it modally
-            self.navigationController?.pushViewController(viewController, animated: true)
+        if let vc = storyboard.instantiateViewController(withIdentifier: "ContactEntryViewController") as? ContactEntryViewController {
+            vc.uuid = screenType == .editContact ? userSelectedContactID : nil
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -90,6 +97,12 @@ extension ContactTableViewController: UITableViewDelegate, UITableViewDataSource
         let cell = tblView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ContactTableViewCell
         cell.setContactDetail(contact: contactList[indexPath.row])
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let index = indexPath.row
+        userSelectedContactID = contactList[index].id
+        moveToContactEntryScreen(screenType: .editContact)
     }
     
     
