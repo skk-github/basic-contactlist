@@ -67,17 +67,7 @@ class ContactEntryViewController: UIViewController {
        
     }
     
-    func saveToPersistanceStore() {
-        
-        
-//        let contact = Contact(context: PersistanceManager.shared.context)
-//        contact.name = name
-//        contact.id = uuid!
-//        contact.primaryNumber = primaryNumber ?? <#default value#>
-//        contact.secondaryNumber = secondaryNumber
-//        contact.email = email
-        
-    }
+
     
     func setContactDetails(fetchedContact: Contact?) {
         guard let contact = fetchedContact else {return}
@@ -90,9 +80,9 @@ class ContactEntryViewController: UIViewController {
     }
     
     
-    func addNewContact() {
+    func setAndPersistContact(contact: Contact) {
         
-        let contact = Contact(context: PersistanceManager.shared.context)
+        let contact = contact
         contact.name = name
         contact.id = uuid!
         contact.primaryNumber = primaryNumber ?? 0
@@ -103,6 +93,12 @@ class ContactEntryViewController: UIViewController {
     
     
     @IBAction func saveBtnTapped(_ sender: Any) {
+        if screenType == .editContact {
+            guard let contact = fetchedContact else {return}
+            setAndPersistContact(contact: contact)
+        }else{
+            setAndPersistContact(contact: Contact(context: PersistanceManager.shared.context))
+        }
     }
     
     @IBAction func deleteButtonTapped(_ sender: Any) {
