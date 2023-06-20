@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5id-CY-G4M">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -103,7 +103,7 @@
                                 </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Screen Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FEd-7H-KM5">
-                                <rect key="frame" x="20" y="79" width="353" height="20.333333333333329"/>
+                                <rect key="frame" x="20.000000000000007" y="79" width="90.666666666666686" height="20.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -121,23 +121,40 @@
                                     <action selector="saveBtnTapped:" destination="XFn-Nj-ntQ" eventType="touchUpInside" id="xX6-Wn-iRl"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cRK-Da-cbh">
+                                <rect key="frame" x="353" y="79" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="7rT-fZ-oP8"/>
+                                    <constraint firstAttribute="height" constant="20" id="WrW-7x-DEZ"/>
+                                </constraints>
+                                <color key="tintColor" systemColor="systemRedColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="bin.xmark" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="deleteButtonTapped:" destination="XFn-Nj-ntQ" eventType="touchUpInside" id="N8V-q8-zF1"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="QxC-oL-HH7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="h7F-Ek-x7h" firstAttribute="leading" secondItem="QxC-oL-HH7" secondAttribute="leading" constant="30" id="1bG-75-SE5"/>
+                            <constraint firstItem="cRK-Da-cbh" firstAttribute="top" secondItem="QxC-oL-HH7" secondAttribute="top" constant="20" id="IgE-uD-OLe"/>
                             <constraint firstItem="QxC-oL-HH7" firstAttribute="trailing" secondItem="h7F-Ek-x7h" secondAttribute="trailing" constant="30" id="SOd-ds-64M"/>
                             <constraint firstItem="QxC-oL-HH7" firstAttribute="trailing" secondItem="ZP6-H5-MLb" secondAttribute="trailing" constant="30" id="TaH-Y9-hdf"/>
                             <constraint firstItem="QxC-oL-HH7" firstAttribute="bottom" secondItem="h7F-Ek-x7h" secondAttribute="bottom" constant="30" id="UMU-Hl-tJG"/>
+                            <constraint firstItem="QxC-oL-HH7" firstAttribute="trailing" secondItem="cRK-Da-cbh" secondAttribute="trailing" constant="20" id="YbF-t9-qKZ"/>
                             <constraint firstItem="ZP6-H5-MLb" firstAttribute="leading" secondItem="QxC-oL-HH7" secondAttribute="leading" constant="30" id="ZXi-hj-DZI"/>
                             <constraint firstItem="ZP6-H5-MLb" firstAttribute="top" secondItem="FEd-7H-KM5" secondAttribute="bottom" constant="30" id="k5Q-c9-pgj"/>
                             <constraint firstItem="FEd-7H-KM5" firstAttribute="leading" secondItem="QxC-oL-HH7" secondAttribute="leading" constant="20" id="pcf-fz-rvp"/>
-                            <constraint firstItem="QxC-oL-HH7" firstAttribute="trailing" secondItem="FEd-7H-KM5" secondAttribute="trailing" constant="20" id="uvX-fQ-Hm4"/>
                             <constraint firstItem="ZP6-H5-MLb" firstAttribute="centerX" secondItem="szt-J5-3Be" secondAttribute="centerX" id="wCY-zS-Ka7"/>
                             <constraint firstItem="FEd-7H-KM5" firstAttribute="top" secondItem="QxC-oL-HH7" secondAttribute="top" constant="20" id="zTR-AG-BiZ"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="deleteButton" destination="cRK-Da-cbh" id="0ky-dA-JaR"/>
                         <outlet property="emailInputField" destination="pah-85-GQc" id="NVK-dA-kpA"/>
                         <outlet property="nameInputField" destination="BBj-aX-uTn" id="pcH-zZ-78w"/>
                         <outlet property="primaryPhInputField" destination="eeP-Eg-cpc" id="dfs-qt-H2g"/>
@@ -168,11 +185,15 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bin.xmark" catalog="system" width="128" height="92"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemGroupedBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -59,6 +59,7 @@ class ContactTableViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let vc = storyboard.instantiateViewController(withIdentifier: "ContactEntryViewController") as? ContactEntryViewController {
             vc.uuid = screenType == .editContact ? userSelectedContactID : nil
+            vc.screenType = screenType
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

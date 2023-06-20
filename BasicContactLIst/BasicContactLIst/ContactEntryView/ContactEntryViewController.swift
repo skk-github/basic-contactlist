@@ -18,6 +18,7 @@ class ContactEntryViewController: UIViewController {
     
     @IBOutlet weak var emailInputField: UITextField!
     
+    @IBOutlet weak var deleteButton: UIButton!
     
     var name: String?
     var primaryNumber: Int64?
@@ -25,6 +26,8 @@ class ContactEntryViewController: UIViewController {
     var email: String?
     var uuid: UUID?
     var fetchedContact: Contact?
+    var screenType: ContactEntryType?
+    
     
     
 
@@ -37,6 +40,10 @@ class ContactEntryViewController: UIViewController {
         }else {
             uuid = UUID()
         }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        deleteButton.isHidden = screenType == .editContact ? false : true
     }
     
     func fetchRecord(id uuid: UUID) {
@@ -98,6 +105,8 @@ class ContactEntryViewController: UIViewController {
     @IBAction func saveBtnTapped(_ sender: Any) {
     }
     
+    @IBAction func deleteButtonTapped(_ sender: Any) {
+    }
     
     
     
