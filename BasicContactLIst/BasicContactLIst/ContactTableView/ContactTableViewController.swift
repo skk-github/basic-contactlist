@@ -55,11 +55,16 @@ class ContactTableViewController: UIViewController {
         moveToContactEntryScreen(screenType: .newContact)
     }
     
-    func moveToContactEntryScreen(screenType: ContactEntryType) {
+    func moveToContactEntryScreen(screenType: ContactEntryType, index: IndexPath? = nil) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let vc = storyboard.instantiateViewController(withIdentifier: "ContactEntryViewController") as? ContactEntryViewController {
-            vc.uuid = screenType == .editContact ? userSelectedContactID : nil
+            
+            if screenType == .editContact {
+                vc.uuid = userSelectedContactID
+                vc.userSelectedIndexPath = index
+            }
             vc.screenType = screenType
+            vc.delegate = self
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -103,9 +108,34 @@ extension ContactTableViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = indexPath.row
         userSelectedContactID = contactList[index].id
-        moveToContactEntryScreen(screenType: .editContact)
+        moveToContactEntryScreen(screenType: .editContact, index: indexPath)
     }
     
     
 }
 
+extension ContactTableViewController: ContactEntryViewControllerDelegates {
+    func removeContact(index: IndexPath?) {
+        if let unwrappedIndex = index {
+//            print(contactList.count)
+//            contactList.remove(at: unwrappedIndex.row)
+//            print(contactList.count)
+//            tblView.reloadRows(at: [unwrappedIndex], with: .fade)
+            
+            tblView.performBatchUpdates {
+                contactList.remove(at: unwrappedIndex.row)
+                tblView.deleteRows(at: [unwrappedIndex], with: .automatic)
+            }
+        }
+        
+    }
+    
+  
+    
+    func updateContactList() {
+        fetchContactList()
+        tblView.reloadData()
+    }
+    
+    
+}

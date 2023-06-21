@@ -8,7 +8,14 @@
 import Foundation
 import UIKit
 
+protocol ContactEntryViewControllerDelegates: AnyObject {
+    func removeContact(index : IndexPath?)
+    func updateContactList()
+}
+
 class ContactEntryViewController: UIViewController {
+    
+    weak var delegate: ContactEntryViewControllerDelegates?
     
     @IBOutlet weak var nameInputField: UITextField!
     
@@ -25,6 +32,7 @@ class ContactEntryViewController: UIViewController {
     var secondaryNumber: Int64?
     var email: String?
     var uuid: UUID?
+    var userSelectedIndexPath: IndexPath?
     var fetchedContact: Contact?
     var screenType: ContactEntryType?
     
@@ -91,6 +99,20 @@ class ContactEntryViewController: UIViewController {
         PersistanceManager.shared.saveContext()
     }
     
+    func deleteContact() {
+        guard let contact = fetchedContact else {return}
+  
+        
+        PersistanceManager.shared.context.delete(contact)
+        PersistanceManager.shared.saveContext()
+        delegate?.removeContact(index: userSelectedIndexPath)
+        
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
     
     @IBAction func saveBtnTapped(_ sender: Any) {
         if screenType == .editContact {
@@ -99,10 +121,16 @@ class ContactEntryViewController: UIViewController {
         }else{
             setAndPersistContact(contact: Contact(context: PersistanceManager.shared.context))
         }
+        delegate?.updateContactList()
+        self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func deleteButtonTapped(_ sender: Any) {
+        deleteContact()
+        self.navigationController?.popViewController(animated: true)
     }
+    
+    
     
     
     
