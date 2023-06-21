@@ -91,11 +91,11 @@ class ContactEntryViewController: UIViewController {
     func setAndPersistContact(contact: Contact) {
         
         let contact = contact
-        contact.name = name
+        contact.name = nameInputField.text
         contact.id = uuid!
-        contact.primaryNumber = primaryNumber ?? 0
-        contact.secondaryNumber = secondaryNumber ?? 0
-        contact.email = email
+        contact.primaryNumber = Int64(primaryPhInputField.text ?? "") ?? 0
+        contact.secondaryNumber = Int64(secondaryPhInputField.text ?? "") ?? 0
+        contact.email = emailInputField.text
         PersistanceManager.shared.saveContext()
     }
     
