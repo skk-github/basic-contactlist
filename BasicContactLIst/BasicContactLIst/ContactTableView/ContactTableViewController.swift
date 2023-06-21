@@ -109,6 +109,7 @@ extension ContactTableViewController: UITableViewDelegate, UITableViewDataSource
         let index = indexPath.row
         userSelectedContactID = contactList[index].id
         moveToContactEntryScreen(screenType: .editContact, index: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
